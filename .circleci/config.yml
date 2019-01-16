@@ -10,6 +10,9 @@ jobs:
     steps:
       - checkout:
           path: project
+      - add_ssh_keys: 
+          fingerprints: 
+              - "aa:54:30:5a:82:59:25:b6:c6:f8:26:2e:d6:56:6e:9d"
       - run: apt-get update
       - run: apt-get install -y sudo
       - run: ls -al /bin/sh && sudo rm /bin/sh && sudo ln -s /bin/bash /bin/sh && ls -al /bin/sh
