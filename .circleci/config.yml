@@ -5,7 +5,6 @@ jobs:
       - image: ubuntu:latest
         environment:
            TZ: "America/Los_Angeles"
-        user: uebuilder
     environment:
       TZ: "America/Los_Angeles"
     steps:
