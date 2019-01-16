@@ -3,12 +3,22 @@ jobs:
   build:
     docker:
       - image: ubuntu:latest
+        environment:
+           TZ: "America/Los_Angeles"
+        user: uebuilder
+    environment:
+      TZ: "America/Los_Angeles"
     steps:
       - checkout:
           path: project
       - run:
+          name: Install dependencies
+          command: |
+              sudo apt update
+              sudo apt install -y git build-essential clang-3.9
+      - run:
           name: Clone unreal engine
-          command: git clone -b 4.18 https://github.com/EpicGames/UnrealEngine.git
+          command: git clone -b 4.18 git@github.com:EpicGames/UnrealEngine.git
       - run:
           name: Build unreal engine
           command: |
