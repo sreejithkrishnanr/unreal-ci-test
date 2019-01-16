@@ -1,0 +1,24 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: ubuntu:latest
+    steps:
+      - checkout:
+          path: project
+      - run:
+          name: Clone unreal engine
+          command: git clone -b 4.18 https://github.com/EpicGames/UnrealEngine.git
+      - run:
+          name: Build unreal engine
+          command: |
+              cd UnrealEngine
+              ./Setup.sh
+              ./GenerateProjectFiles.sh
+              make
+              cd ..
+      - run:
+          name: Build project
+          command: |
+              mkdir project/Build
+              mono Engine/Binaries/DotNET/AutomationTool.exe -ScriptsForProject=project/HelloFly.uproject BuildCookRun -nocompile -nocompileeditor -installed -nop4 -project=project/HelloFly.uproject -cook -stage -archive -archivedirectory=project/Build -package -clientconfig=Development -ue4exe=UE4Editor -pak -prereqs -nodebuginfo -targetplatform=Linux -build -utf8output
