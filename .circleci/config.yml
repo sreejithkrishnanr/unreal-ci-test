@@ -10,12 +10,12 @@ jobs:
     steps:
       - checkout:
           path: project
+      - run: apt-get update
       - run: apt-get install -y sudo
       - run: ls -al /bin/sh && sudo rm /bin/sh && sudo ln -s /bin/bash /bin/sh && ls -al /bin/sh
       - run:
           name: Install dependencies
           command: |
-              sudo apt update
               sudo apt install -y git build-essential clang-3.9
       - run:
           name: Clone unreal engine
