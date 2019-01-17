@@ -39,7 +39,7 @@ jobs:
           command: |
               cd UnrealEngine
               ./GenerateProjectFiles.sh
-              make
+              make -j1
               cd ..
       - save_cache:
           paths:
