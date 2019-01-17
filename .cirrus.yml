@@ -1,5 +1,6 @@
-# global default
-build_task:
+# CI build for unreal projects
+
+build_linux_task:
   timeout_in: 180m
   container:
     image: srl3gx/ubuntu:18.04
@@ -26,13 +27,11 @@ build_task:
       - echo $CACHE_INDEX
     populate_script: 
       - ssh-agent bash -c 'ssh-add <(echo "$UNREAL_DEPLOY_SSH_KEY"); git clone -b $UNREAL_VERSION git@github.com:sreejithkrishnanr/UnrealEngine.git ur4'
-      - cd ur4
-      - ./Setup.sh
-      - ./GenerateProjectFiles.sh
-      - cd ..
 
   script: 
     - cd ur4
-#    - Engine/Build/BatchFiles/Linux/Build.sh HelloFly Linux Development "$CIRRUS_WORKING_DIR/HelloFly.uproject"
+    - ./Setup.sh
+    - ./GenerateProjectFiles.sh
+    - Engine/Build/BatchFiles/Linux/Build.sh HelloFly Linux Development "$CIRRUS_WORKING_DIR/HelloFly.uproject"
     - ls
     - cd ..
