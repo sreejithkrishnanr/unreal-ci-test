@@ -6,7 +6,6 @@ build_linux_task:
     image: srl3gx/ubuntu:18.04
     cpu: 8
     memory: 24G
-    disk: 125G
   
   env:
     CACHE_INDEX: 0
