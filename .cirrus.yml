@@ -1,0 +1,20 @@
+# global default
+build_task:
+  container:
+    image: python:2.7
+    cpu: 8
+    memory: 16G
+  
+  env:
+    UNREAL_VERSION: 4.18
+  
+  unrealengine_cache:
+    folder: ur4
+    fingerprint_script: echo $UNREAL_VERSION
+    populate_script: git clone -b $UNREAL_VERSION git@github.com:sreejithkrishnanr/UnrealEngine.git ur4 && cd ur4 && ./Setup.sh && cd ..
+
+  script: 
+    - cd ur4
+    - ./GenerateProjectFiles.sh
+    - make -j32
+    - cd ..
