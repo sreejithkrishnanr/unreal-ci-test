@@ -34,13 +34,12 @@ jobs:
           paths:
               - UnrealEngine
           key: unreal-engine-cache
-      - run: sudo apt remove clang-3.9 && sudo apt install -y clang-3.8
       - run:
           name: Build unreal engine
           command: |
               cd UnrealEngine
               ./GenerateProjectFiles.sh
-              make -j1
+              make UE4Editor-Linux-Debug -j8
               cd ..
       - save_cache:
           paths:
