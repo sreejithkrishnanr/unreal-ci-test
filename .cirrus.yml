@@ -32,6 +32,6 @@ build_linux_task:
     - cd ur4
     - ./Setup.sh
     - ./GenerateProjectFiles.sh
-    - make UE4Editor-Linux -j32
+    - make UE4Editor -j32
     - ls
     - cd ..
