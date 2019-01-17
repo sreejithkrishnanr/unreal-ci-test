@@ -20,17 +20,31 @@ jobs:
           name: Install dependencies
           command: |
               sudo apt install -y git
+      - restore_cache:
+          keys:
+              - unreal-engine-cache
       - run:
-          name: Clone unreal engine
-          command: git clone -b 4.18 git@github.com:EpicGames/UnrealEngine.git
+          name: Clone and setup unreal engine
+          command: |
+              if [ ! -d UnrealEngine ]; then git clone -b 4.18 git@github.com:EpicGames/UnrealEngine.git UnrealEngine; fi
+              cd UnrealEngine
+              ./Setup.sh
+              cd ..
+      - save_cache:
+          paths:
+              - UnrealEngine
+          key: unreal-engine-cache
       - run:
           name: Build unreal engine
           command: |
               cd UnrealEngine
-              ./Setup.sh
               ./GenerateProjectFiles.sh
               make
               cd ..
+      - save_cache:
+          paths:
+              - UnrealEngine
+          key: unreal-engine-cache
       - run:
           name: Build project
           command: |
