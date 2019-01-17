@@ -19,7 +19,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-              sudo apt install -y git build-essential clang-3.9
+              sudo apt install -y git
       - run:
           name: Clone unreal engine
           command: git clone -b 4.18 git@github.com:EpicGames/UnrealEngine.git
