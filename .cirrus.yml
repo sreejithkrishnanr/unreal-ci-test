@@ -15,7 +15,7 @@ build_task:
     - eval $(ssh-agent -s)
     - mkdir -p ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - sudo apt-get install git
+    - sudo apt-get install -y git
   
   unrealengine_cache:
     folder: ur4
