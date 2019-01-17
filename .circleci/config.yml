@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: ubuntu:latest
+      - image: circleci/python:2.7
         environment:
            TZ: "America/Los_Angeles"
     environment:
@@ -13,6 +13,8 @@ jobs:
       - add_ssh_keys: 
           fingerprints: 
               - "aa:54:30:5a:82:59:25:b6:c6:f8:26:2e:d6:56:6e:9d"
+              - "75:b4:a6:20:ea:40:48:fb:80:74:c6:32:a3:de:27:29"
+              - "SHA256:nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8"
       - run: apt-get update
       - run: apt-get install -y sudo
       - run: ls -al /bin/sh && sudo rm /bin/sh && sudo ln -s /bin/bash /bin/sh && ls -al /bin/sh
