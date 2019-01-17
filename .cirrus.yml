@@ -1,13 +1,15 @@
 # global default
 build_task:
+  timeout_in: 180m
   container:
     image: srl3gx/ubuntu:18.04
     cpu: 8
     memory: 16G
   
   env:
+    CACHE_INDEX: 0
     UNREAL_VERSION: 4.18
-    UR_SSH_KEY: ENCRYPTED[9a361416afe386e8dffb8c5cc94c8e62e9d21ba30913221822df37cbdbdbc849a9ae738b0e01dd72596770f7ca68f109]
+    UNREAL_DEPLOY_SSH_KEY: ENCRYPTED[9a361416afe386e8dffb8c5cc94c8e62e9d21ba30913221822df37cbdbdbc849a9ae738b0e01dd72596770f7ca68f109]
 
   before_script:
     - sudo apt-get update -y
@@ -19,15 +21,18 @@ build_task:
   
   unrealengine_cache:
     folder: ur4
-    fingerprint_script: echo $UNREAL_VERSION
+    fingerprint_script: 
+      - echo $UNREAL_VERSION
+      - echo $CACHE_INDEX
     populate_script: 
-      - ssh-agent bash -c 'ssh-add <(echo "$UR_SSH_KEY"); git clone -b $UNREAL_VERSION git@github.com:sreejithkrishnanr/UnrealEngine.git ur4'
+      - ssh-agent bash -c 'ssh-add <(echo "$UNREAL_DEPLOY_SSH_KEY"); git clone -b $UNREAL_VERSION git@github.com:sreejithkrishnanr/UnrealEngine.git ur4'
       - cd ur4
       - ./Setup.sh
+      - ./GenerateProjectFiles.sh
+      - make
       - cd ..
 
   script: 
     - cd ur4
-    - ./GenerateProjectFiles.sh
-    - make
+    - ls
     - cd ..
