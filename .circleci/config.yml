@@ -39,8 +39,9 @@ jobs:
           command: |
               cd UnrealEngine
               ./GenerateProjectFiles.sh
-              make UE4Editor-Linux-Debug
+              make UE4Editor-Linux-Debug -j12
               cd ..
+          no_output_timeout: 60m
       - save_cache:
           paths:
               - UnrealEngine
