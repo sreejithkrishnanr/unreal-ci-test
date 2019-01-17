@@ -12,15 +12,17 @@ build_task:
   before_script:
     - 'which ssh-agent || ( sudo apt-get update -y && sudo apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
-    - ssh-add <(echo "$UR_SSH_KEY")
-    - echo $UR_SSH_KEY
     - mkdir -p ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
   
   unrealengine_cache:
     folder: ur4
     fingerprint_script: echo $UNREAL_VERSION
-    populate_script: git clone -b $UNREAL_VERSION git@github.com:sreejithkrishnanr/UnrealEngine.git ur4 && cd ur4 && ./Setup.sh && cd ..
+    populate_script: 
+      - ssh-agent bash -c 'ssh-add <(echo "$UR_SSH_KEY"); git clone -b $UNREAL_VERSION git@github.com:sreejithkrishnanr/UnrealEngine.git ur4'
+      - cd ur4
+      - ./Setup.sh
+      - cd ..
 
   script: 
     - cd ur4
