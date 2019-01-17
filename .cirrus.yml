@@ -7,6 +7,10 @@ build_task:
   
   env:
     UNREAL_VERSION: 4.18
+    UR_SSH_KEY: ENCRYPTED[9a361416afe386e8dffb8c5cc94c8e62e9d21ba30913221822df37cbdbdbc849a9ae738b0e01dd72596770f7ca68f109]
+
+  before_script:
+    - ssh-add <(echo "$UR_SSH_KEY")
   
   unrealengine_cache:
     folder: ur4
