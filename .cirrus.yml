@@ -13,6 +13,7 @@ build_task:
     - 'which ssh-agent || ( sudo apt-get update -y && sudo apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
     - ssh-add <(echo "$UR_SSH_KEY")
+    - echo $UR_SSH_KEY
     - mkdir -p ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
   
