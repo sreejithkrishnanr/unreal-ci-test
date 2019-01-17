@@ -1,7 +1,7 @@
 # global default
 build_task:
   container:
-    image: ros:melodic-ros-core-bionic
+    image: srl3gx/ubuntu:18.04
     cpu: 8
     memory: 16G
   
