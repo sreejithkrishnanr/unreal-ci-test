@@ -27,5 +27,5 @@ build_task:
   script: 
     - cd ur4
     - ./GenerateProjectFiles.sh
-    - make -j32
+    - make
     - cd ..
