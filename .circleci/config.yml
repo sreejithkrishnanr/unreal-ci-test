@@ -39,7 +39,7 @@ jobs:
           command: |
               cd UnrealEngine
               ./GenerateProjectFiles.sh
-              make UE4Editor-Linux-Debug -j8
+              make UE4Editor-Linux-Debug
               cd ..
       - save_cache:
           paths:
