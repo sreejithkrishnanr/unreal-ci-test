@@ -21,6 +21,7 @@ build_linux_task:
     - sudo apt-get install -y git
 
   unreal_engine_script:
+    - cd ..
     - ssh-agent bash -c 'ssh-add <(echo "$UNREAL_DEPLOY_SSH_KEY"); git clone -b $UNREAL_VERSION git@github.com:sreejithkrishnanr/UnrealEngine.git ur4'
     - cd ur4
     - ./Setup.sh
