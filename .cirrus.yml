@@ -30,7 +30,7 @@ build_linux_task:
     - cd ..
 
   script: 
-    - cd ur4
+    - cd ../ur4
     - mkdir "$CIRRUS_WORKING_DIR/Build"
     - Engine/Build/BatchFiles/RunUAT.sh BuildCookRun -project="$CIRRUS_WORKING_DIR/HelloFly.uproject" -noP4 -platform=Linux -clientconfig=Development -serverconfig=Development -cook -maps=AllMaps -compile -stage -pak -archive -archivedirectory="$CIRRUS_WORKING_DIR/Build"
     - cd ..
