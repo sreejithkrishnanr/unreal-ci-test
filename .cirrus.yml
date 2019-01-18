@@ -33,5 +33,6 @@ build_linux_task:
     - ./Setup.sh
     - ./GenerateProjectFiles.sh
     - make UE4Editor -j32
-    - ls
+    - mkdir "$CIRRUS_WORKING_DIR/Build"
+    - mono Engine/Binaries/DotNET/AutomationTool.exe -ScriptsForProject="$CIRRUS_WORKING_DIR/HelloFly.uproject" BuildCookRun -nocompile -nocompileeditor -installed -nop4 -project="$CIRRUS_WORKING_DIR/HelloFly.uproject" -cook -stage -archive -archivedirectory="$CIRRUS_WORKING_DIR/Build" -package -clientconfig=Development -ue4exe=UE4Editor -pak -prereqs -nodebuginfo -targetplatform=Linux -build -utf8output
     - cd ..
