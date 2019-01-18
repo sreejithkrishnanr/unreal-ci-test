@@ -3,9 +3,34 @@
 build_linux_task:
   timeout_in: 180m
   container:
-    image: adamrehn/ue4-engine:4.19
+    image: srl3gx/ubuntu:18.04
     cpu: 8
     memory: 24G
+  
+  env:
+    CACHE_INDEX: 0
+    UNREAL_VERSION: 4.18
+    UNREAL_DEPLOY_SSH_KEY: ENCRYPTED[9a361416afe386e8dffb8c5cc94c8e62e9d21ba30913221822df37cbdbdbc849a9ae738b0e01dd72596770f7ca68f109]
+
+  before_script:
+    - sudo apt-get update -y
+    - 'which ssh-agent || ( sudo apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - sudo apt-get install -y git
+
+  unreal_engine_script:
+    - ssh-agent bash -c 'ssh-add <(echo "$UNREAL_DEPLOY_SSH_KEY"); git clone -b $UNREAL_VERSION git@github.com:sreejithkrishnanr/UnrealEngine.git ur4'
+    - cd ur4
+    - ./Setup.sh
+    - ./GenerateProjectFiles.sh
+    - make UE4Editor -j32
+    - cd ..
 
   script: 
-    - /home/ue4/UnrealEngine/Engine/Build/BatchFiles/Linux/Build.sh MyProjectEditor Linux Development -project="$CIRRUS_WORKING_DIR/HelloFly.uproject"
+    - cd ur4
+    - mkdir "$CIRRUS_WORKING_DIR/Build"
+    - Engine/Build/BatchFiles/RunUAT.sh BuildCookRun -project="$CIRRUS_WORKING_DIR/HelloFly.uproject" -noP4 -platform=Linux -clientconfig=Development -serverconfig=Development -cook -maps=AllMaps -compile -stage -pak -archive -archivedirectory="$CIRRUS_WORKING_DIR/Build"
+    - cd ..
+    - ls $CIRRUS_WORKING_DIR/Build
