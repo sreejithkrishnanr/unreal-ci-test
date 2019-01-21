@@ -24,7 +24,7 @@ build_linux_task:
 
   airsim_script:
     - cd ..
-    - git clone https://github.com/Microsoft/AirSim.git airsim
+    - git clone https://github.com/sreejithkrishnanr/AirSim.git airsim
     - cd airsim
     - ./setup.sh
     - ./build.sh
