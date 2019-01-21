@@ -21,13 +21,13 @@ build_linux_task:
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - sudo apt-get install -y git wget
 
-    airsim_script:
-      - cd ..
-      - git clone https://github.com/Microsoft/AirSim.git airsim
-      - cd airsim
-      - ./setup.sh
-      - ./build.sh
-      - export CIRRUS_WORKING_DIR="$PWD/Unreal/Environments/Blocks"
+  airsim_script:
+    - cd ..
+    - git clone https://github.com/Microsoft/AirSim.git airsim
+    - cd airsim
+    - ./setup.sh
+    - ./build.sh
+    - export CIRRUS_WORKING_DIR="$PWD/Unreal/Environments/Blocks"
 
   unreal_engine_script:
     - cd ..
