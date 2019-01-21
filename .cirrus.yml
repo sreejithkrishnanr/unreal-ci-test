@@ -11,7 +11,7 @@ build_linux_task:
     CACHE_INDEX: 0
     UNREAL_VERSION: 4.18
     UNREAL_DEPLOY_SSH_KEY: ENCRYPTED[9a361416afe386e8dffb8c5cc94c8e62e9d21ba30913221822df37cbdbdbc849a9ae738b0e01dd72596770f7ca68f109]
-    PROJECT_NAME: HelloFly
+    PROJECT_NAME: Blocks
 
   before_script:
     - sudo apt-get update -y
@@ -28,10 +28,17 @@ build_linux_task:
     - ./Setup.sh
     - ./GenerateProjectFiles.sh
 
+  airsim_script:
+    - cd ..
+    - git clone https://github.com/Microsoft/AirSim.git airsim
+    - cd airsim
+    - ./setup.sh
+    - ./build.sh
+    - export CIRRUS_WORKING_DIR="$PWD/Unreal/Environments/Blocks"
+
   script: 
     - cd ../ur4
     - mkdir "$CIRRUS_WORKING_DIR/Build"
     - Engine/Build/BatchFiles/Linux/Build.sh ShaderCompileWorker Linux Development
-#    - Engine/Build/BatchFiles/Linux/Build.sh ${PROJECT_NAME}Editor Linux Development $CIRRUS_WORKING_DIR/${PROJECT_NAME}.uproject -WaitMutex
     - Engine/Build/BatchFiles/RunUAT.sh BuildCookRun -Project="$CIRRUS_WORKING_DIR/${PROJECT_NAME}.uproject" -NoP4 -Distribution -TargetPlatform=Linux -Platform=Linux -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -Archive -ArchiveDirectory="$CIRRUS_WORKING_DIR/Build" -Rocket -Prereqs -Package
-    - ls $CIRRUS_WORKING_DIR/Build
+    - tree -d $CIRRUS_WORKING_DIR/Build
