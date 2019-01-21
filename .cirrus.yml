@@ -31,6 +31,7 @@ build_linux_task:
   script: 
     - cd ../ur4
     - mkdir "$CIRRUS_WORKING_DIR/Build"
+    - Engine/Build/BatchFiles/Linux/Build.sh ShaderCompileWorker Linux Development
     - Engine/Build/BatchFiles/Linux/Build.sh ${PROJECT_NAME}Editor Linux Development $CIRRUS_WORKING_DIR/${PROJECT_NAME}.uproject -WaitMutex
     - Engine/Build/BatchFiles/RunUAT.sh BuildCookRun -Project="$CIRRUS_WORKING_DIR/${PROJECT_NAME}.uproject" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Linux -Platform=Linux -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -Archive -ArchiveDirectory="$CIRRUS_WORKING_DIR/Build" -Rocket -Prereqs -Package
     - ls $CIRRUS_WORKING_DIR/Build
