@@ -11,6 +11,7 @@ build_linux_task:
     CACHE_INDEX: 0
     UNREAL_VERSION: 4.18
     UNREAL_DEPLOY_SSH_KEY: ENCRYPTED[9a361416afe386e8dffb8c5cc94c8e62e9d21ba30913221822df37cbdbdbc849a9ae738b0e01dd72596770f7ca68f109]
+    PROJECT_NAME: HelloFly
 
   before_script:
     - sudo apt-get update -y
@@ -26,12 +27,10 @@ build_linux_task:
     - cd ur4
     - ./Setup.sh
     - ./GenerateProjectFiles.sh
-    - make UE4Editor -j32
-    - cd ..
 
   script: 
     - cd ../ur4
     - mkdir "$CIRRUS_WORKING_DIR/Build"
-    - Engine/Build/BatchFiles/RunUAT.sh BuildCookRun -project="$CIRRUS_WORKING_DIR/HelloFly.uproject" -noP4 -platform=Linux -clientconfig=Development -serverconfig=Development -cook -maps=AllMaps -compile -stage -pak -archive -archivedirectory="$CIRRUS_WORKING_DIR/Build"
-    - cd ..
+    - Build/BatchFiles/Linux/Build.sh ${PROJECT_NAME}Editor Linux Development $CIRRUS_WORKING_DIR/${PROJECT_NAME}.uproject -WaitMutex
+    - Engine/Build/BatchFiles/RunUAT.sh BuildCookRun -Project="$CIRRUS_WORKING_DIR/${PROJECT_NAME}.uproject" -NoP4 -NoCompileEditor -Distribution -TargetPlatform=Linux -Platform=Linux -ClientConfig=Shipping -ServerConfig=Shipping -Cook -Build -Stage -Pak -Archive -ArchiveDirectory="$CIRRUS_WORKING_DIR/Build" -Rocket -Prereqs -Package
     - ls $CIRRUS_WORKING_DIR/Build
