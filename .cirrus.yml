@@ -28,6 +28,7 @@ build_linux_task:
     - cd $PROJECT_DIR
     - wget https://github.com/sreejithkrishnanr/AirSim/releases/download/v1.2.0beta1/airsim-unreal-plugin-linux.tar.gz
     - tar -xvzf airsim-unreal-plugin-linux.tar.gz
+    - rm airsim-unreal-plugin-linux.tar.gz
 
   unreal_engine_script:
     - cd ..
