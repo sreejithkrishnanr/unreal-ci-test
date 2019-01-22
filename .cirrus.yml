@@ -24,10 +24,10 @@ build_linux_task:
 
   airsim_script:
     - cd ..
-    - git clone https://github.com/sreejithkrishnanr/AirSim.git airsim
-    - cd airsim
-    - ./setup.sh
-    - ./build.sh
+    - git clone --depth 1 https://github.com/sreejithkrishnanr/AirSim.git airsim
+    - cd $PROJECT_DIR
+    - wget https://github.com/sreejithkrishnanr/AirSim/releases/download/v1.2.0beta1/airsim-unreal-plugin-linux.tar.gz
+    - tar -xvzf airsim-unreal-plugin-linux.tar.gz
 
   unreal_engine_script:
     - cd ..
